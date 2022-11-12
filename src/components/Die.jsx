@@ -5,7 +5,9 @@ export default function Die(props){
 
 
     return (
-        <div className="die-face shadow is-held" style={styles}>
+        <div className="die-face shadow" 
+            style={styles} 
+            onClick={props.holdDice}>
             <span>{props.value}</span>
         </div>
     )
