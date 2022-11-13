@@ -3,21 +3,12 @@ import Die from "./components/Die"
 import { nanoid } from "nanoid"
 import Confetti from "react-confetti"
 
-/**
- * Challenge: Tie off loose ends!
- * 1. If tenzies is true, Change the button text to "New Game"
- * 2. If tenzies is true, use the "react-confetti" package to
- *    render the <Confetti /> component 🎉
- *
- *    Hint: don't worry about the `height` and `width` props
- *    it mentions in the documentation.
- */
-
 function App() {
   // start dice state as array of 10 random numbers (betw 1 & 6)
   const [dice, setDice] = useState(allNewDice())
   // set win state (false by default)
   const [tenzies, setTenzies] = useState(false)
+  const [count, setCount] = useState(1)
 
   useEffect(() => {
     const stillPlaying = dice.find((die) => die.isHeld === false)
@@ -52,6 +43,8 @@ function App() {
 
   // set our state
   function rollDice() {
+    setCount(prevCount => prevCount + 1)
+    console.log(count)
     setDice((oldDice) =>
       oldDice.map((die) => {
         return die.isHeld ? die : newDieObject()
@@ -60,6 +53,7 @@ function App() {
   }
 
   function newGame() {
+    setCount(1)
     setTenzies(!tenzies)
     setDice(allNewDice())
   }
@@ -92,7 +86,7 @@ function App() {
           current value between rolls.
         </p>
       ) : (
-        <h2>You win!</h2>
+        <h2>You won with {count} rolls of the dice!</h2>
       )}
       <div className="diceContainer">{dieElements}</div>
       <button className="roll shadow" onClick={tenzies ? newGame : rollDice}>
