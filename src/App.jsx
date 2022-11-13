@@ -1,6 +1,17 @@
 import { useState, useEffect } from "react"
 import Die from "./components/Die"
 import { nanoid } from "nanoid"
+import Confetti from "react-confetti"
+
+/**
+ * Challenge: Tie off loose ends!
+ * 1. If tenzies is true, Change the button text to "New Game"
+ * 2. If tenzies is true, use the "react-confetti" package to
+ *    render the <Confetti /> component 🎉
+ *
+ *    Hint: don't worry about the `height` and `width` props
+ *    it mentions in the documentation.
+ */
 
 function App() {
   // start dice state as array of 10 random numbers (betw 1 & 6)
@@ -8,21 +19,18 @@ function App() {
   // set win state (false by default)
   const [tenzies, setTenzies] = useState(false)
 
-  useEffect(()=>{
-    
-    const stillPlaying = dice.find(die => die.isHeld === false)
-    
+  useEffect(() => {
+    const stillPlaying = dice.find((die) => die.isHeld === false)
+
     //store a value to check against the rest!
     const firstValue = dice[0].value
-    const allSameValue = dice.every(die => die.value === firstValue)
-    
-    if(!stillPlaying && allSameValue){
+    const allSameValue = dice.every((die) => die.value === firstValue)
+
+    if (!stillPlaying && allSameValue) {
       setTenzies(true)
       console.log("winner")
     }
-  
   }, [dice])
-
 
   // create our initial array of random numbers betw 1 and 6
   function allNewDice() {
@@ -51,6 +59,11 @@ function App() {
     )
   }
 
+  function newGame() {
+    setTenzies(!tenzies)
+    setDice(allNewDice())
+  }
+
   function holdDice(id) {
     setDice((oldDice) =>
       oldDice.map((die) => {
@@ -71,14 +84,19 @@ function App() {
 
   return (
     <main>
+      {tenzies && <Confetti />}
       <h1 className="title">Tenzies</h1>
-      <p className="instructions">
-        Roll until all dice are the same. Click each die to freeze it at its
-        current value between rolls.
-      </p>
+      {!tenzies ? (
+        <p className="instructions">
+          Roll until all dice are the same. Click each die to freeze it at its
+          current value between rolls.
+        </p>
+      ) : (
+        <h2>You win!</h2>
+      )}
       <div className="diceContainer">{dieElements}</div>
-      <button className="roll shadow" onClick={rollDice}>
-        Roll
+      <button className="roll shadow" onClick={tenzies ? newGame : rollDice}>
+        {tenzies ? "New Game?" : "Roll"}
       </button>
     </main>
   )
