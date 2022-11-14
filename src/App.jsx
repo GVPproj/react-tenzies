@@ -14,18 +14,25 @@ function App() {
   const [time, setTime] = useState(0)
   // timer running?  (boolean)
   const [running, setRunning] = useState(false)
+  const [lowScore, setLowScore] = useState(
+    null || JSON.parse(localStorage.getItem("storedLowScore"))
+  )
+  const [newLowScore, setNewLowScore] = useState(false)
 
   let timeInt = parseInt(("0" + Math.floor((time / 1000) % 60)).slice(-2))
-  const highScore= JSON.parse(localStorage.getItem("highScore"))   
 
   //localStorage
-  useEffect(() => { 
-    
-    if(!highScore){
-      localStorage.setItem("highScore", JSON.stringify(timeInt + count))
-    } else if(tenzies && (timeInt + count) < highScore) {
-      localStorage.setItem("highScore", JSON.stringify(timeInt + count))
-      console.log("new high score")
+  useEffect(() => {
+    if (tenzies && !lowScore) {
+      localStorage.setItem("storedLowScore", JSON.stringify(timeInt + count))
+      setLowScore(timeInt + count)
+      setNewLowScore(true)
+    } else if (tenzies && timeInt + count < lowScore) {
+      localStorage.setItem("storedLowScore", JSON.stringify(timeInt + count))
+      setLowScore(timeInt + count)
+      setNewLowScore(true)
+    } else {
+      setNewLowScore(false)
     }
   }, [tenzies])
 
@@ -118,13 +125,21 @@ function App() {
       {tenzies && <Confetti />}
 
       <h1 className="title">Tenzies</h1>
-      {!tenzies ? (
+      {!tenzies && (
         <p className="instructions">
           Roll until all dice match. Click dice to freeze between rolls.
         </p>
-      ) : (
-        <p>WINNER! Nice one, you.</p>
       )}
+
+      {tenzies && (
+        <>
+          {newLowScore ? 
+          <p>NEW LOW SCORE! Just excellent.</p>
+          : 
+          <p>WINNER! Nice one, you.</p>}
+        </>
+      )}
+
       <div className="diceContainer">{dieElements}</div>
       {!tenzies ? (
         <div className="stopwatch">
@@ -136,9 +151,7 @@ function App() {
               </div>
               <div>
                 <span>Current time: </span>
-                <span>
-                  {timeInt} seconds
-                </span>
+                <span>{timeInt} seconds</span>
               </div>
             </div>
           ) : (
@@ -147,12 +160,13 @@ function App() {
         </div>
       ) : (
         <p>
-          You scored {" "}
-          <span className="bold">{timeInt + count}</span><br/>
+          You scored <span className="bold">{timeInt + count}</span>
+          <br />
           {`(${timeInt} seconds + ${count} rolls)`}
-          <br /><br/>
-          High score:{" "}
-          <span className="bold">{highScore ? highScore : (timeInt + count)}</span>
+          <br />
+          <br />
+          Low score:{" "}
+          <span className="bold">{lowScore ? lowScore : timeInt + count}</span>
         </p>
       )}
       <button className="roll shadow" onClick={tenzies ? newGame : rollDice}>

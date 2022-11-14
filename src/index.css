@@ -109,6 +109,11 @@ main {
   }
   p, span{
     font-size: .75em;
+    
+  }
+
+  .bold{
+    font-size: 1em;
   }
   .diceContainer {
     gap: .75rem;
@@ -119,7 +124,6 @@ main {
     height: 2.5rem;
   }
   .numbers{
-
     flex-direction: column;
     align-items: center;
   }
