@@ -127,16 +127,21 @@ function App() {
       <h1 className="title">Tenzies</h1>
       {!tenzies && (
         <p className="instructions">
-          Roll until all dice match. Click dice to freeze between rolls.
+          Click dice to freeze between rolls.
+          <br />
+          Roll remaining dice until all match.
+          <br />
+          Score = rolls + time (lower is better).
         </p>
       )}
 
       {tenzies && (
         <>
-          {newLowScore ? 
-          <p>NEW LOW SCORE! Just excellent.</p>
-          : 
-          <p>WINNER! Nice one, you.</p>}
+          {newLowScore ? (
+            <p>NEW LOW SCORE! Just excellent.</p>
+          ) : (
+            <p>WINNER! Nice one, you.</p>
+          )}
         </>
       )}
 
@@ -150,7 +155,7 @@ function App() {
                 <span>{count}</span>
               </div>
               <div>
-                <span>Current time: </span>
+                <span>Time: </span>
                 <span>{timeInt} seconds</span>
               </div>
             </div>
