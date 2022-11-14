@@ -15,6 +15,20 @@ function App() {
   // timer running?  (boolean)
   const [running, setRunning] = useState(false)
 
+  let timeInt = parseInt(("0" + Math.floor((time / 1000) % 60)).slice(-2))
+  const highScore= JSON.parse(localStorage.getItem("score"))   
+
+  //localStorage
+  useEffect(() => { 
+    
+    if(!highScore){
+      localStorage.setItem("score", JSON.stringify(timeInt + count))
+    } else if(tenzies && (timeInt + count) < highScore) {
+      localStorage.setItem("score", JSON.stringify(timeInt + count))
+      console.log("new high score")
+    }
+  }, [tenzies])
+
   // timer side effect
   useEffect(() => {
     let interval
@@ -65,7 +79,6 @@ function App() {
   function rollDice() {
     setRunning(true)
     setCount((prevCount) => prevCount + 1)
-    console.log(count)
     setDice((oldDice) =>
       oldDice.map((die) => {
         return die.isHeld ? die : newDieObject()
@@ -124,7 +137,7 @@ function App() {
               <div>
                 <span>Current time: </span>
                 <span>
-                  {("0" + Math.floor((time / 1000) % 60)).slice(-2)} seconds
+                  {timeInt} seconds
                 </span>
               </div>
             </div>
@@ -134,13 +147,12 @@ function App() {
         </div>
       ) : (
         <p>
-          You won in{" "}
-          <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}</span>{" "}
-          seconds with {count} rolls of the dice!
-          <br />
-          Best time:{" "}
-          <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}</span> seconds / Fewest
-          rolls: {count}
+          You scored {" "}
+          <span className="bold">{timeInt + count}</span><br/>
+          {`(${timeInt} seconds + ${count} rolls)`}
+          <br /><br/>
+          High score:{" "}
+          <span className="bold">{highScore ? highScore : (timeInt + count)}</span>
         </p>
       )}
       <button className="roll shadow" onClick={tenzies ? newGame : rollDice}>

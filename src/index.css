@@ -37,6 +37,10 @@ main {
   -moz-box-shadow: 1px 3px 5px 3px rgba(0,0,0,0.25);
 }
 
+.bold{
+  font-weight: 700;
+}
+
 /* Title and text */
 
 .title {
