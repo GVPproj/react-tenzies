@@ -16,15 +16,15 @@ function App() {
   const [running, setRunning] = useState(false)
 
   let timeInt = parseInt(("0" + Math.floor((time / 1000) % 60)).slice(-2))
-  const highScore= JSON.parse(localStorage.getItem("score"))   
+  const highScore= JSON.parse(localStorage.getItem("highScore"))   
 
   //localStorage
   useEffect(() => { 
     
     if(!highScore){
-      localStorage.setItem("score", JSON.stringify(timeInt + count))
+      localStorage.setItem("highScore", JSON.stringify(timeInt + count))
     } else if(tenzies && (timeInt + count) < highScore) {
-      localStorage.setItem("score", JSON.stringify(timeInt + count))
+      localStorage.setItem("highScore", JSON.stringify(timeInt + count))
       console.log("new high score")
     }
   }, [tenzies])
