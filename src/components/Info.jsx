@@ -23,7 +23,7 @@ export default function Info() {
         I also personalized the <strong>styling</strong>, fonts and colours.
       </p>
       <p>
-        Thanks for playing! <em>xo, GVP</em>
+        Thanks for playing! <br/><em>xo, GVP</em>
       </p>
     </section>
   )
