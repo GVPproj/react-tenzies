@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import Confetti from "react-confetti"
 import Die from "./components/Die"
+import Info from "./components/Info"
 import { allNewDice, newDieObject } from "./components/Utils"
 
 function App() {
@@ -40,17 +41,6 @@ function App() {
     return () => clearInterval(interval)
   }, [timerRunning]) // useEffect when {timerRunning} is true
 
-  // WIN STATE
-  useEffect(() => {
-    const stillPlaying = dice.find((die) => die.isHeld === false) // any unheld dice?
-    const firstValue = dice[0].value
-    const allSameValue = dice.every((die) => die.value === firstValue) // all match dice #1?
-    if (!stillPlaying && allSameValue) {
-      setTimerRunning(false)
-      setTenzies(true)
-    }
-  }, [dice])
-
   // ROLL BUTTON
   function rollDice() {
     setTimerRunning(true)
@@ -72,6 +62,18 @@ function App() {
     )
   }
 
+  // WIN STATE
+  useEffect(() => {
+    const stillPlaying = dice.find((die) => die.isHeld === false) // any unheld dice?
+    const firstValue = dice[0].value
+    const allSameValue = dice.every((die) => die.value === firstValue) // all match dice #1?
+    if (!stillPlaying && allSameValue) {
+      setTimerRunning(false)
+      setTenzies(true)
+    }
+  }, [dice])
+
+  // NEW GAME
   function newGame() {
     setDice(allNewDice())
     setRollCount(0)
@@ -92,60 +94,63 @@ function App() {
 
   return (
     <main>
-      {tenzies && <Confetti />}
-      <h1 className="title">Tenzies</h1>
-      {!tenzies && (
-        <p className="instructions">
-          Click dice to freeze between rolls.
-          <br />
-          Roll remaining dice until all match.
-          <br />
-          Score = rolls + time (lower is better).
-        </p>
-      )}
-      {tenzies && (
-        <>
-          {newLowScore ? (
-            <p>NEW LOW SCORE!  Just excellent.</p>
-          ) : (
-            <p>WINNER!  Nice one, you.  I know you can do better though.</p>
-          )}
-        </>
-      )}
-      <div className="diceContainer">{dieElements}</div>
-      {!tenzies ? (
-        <div className="stopwatch">
-          {timerRunning ? (
-            <div className="numbers">
-              <div>
-                <span>Rolls: </span>
-                <span>{rollCount}</span>
+      <section>
+        {tenzies && <Confetti />}
+        <h1 className="title">Tenzies</h1>
+        {!tenzies && (
+          <p className="instructions">
+            Click dice to freeze between rolls.
+            <br />
+            Roll remaining dice until all match.
+            <br />
+            Score = rolls + time (lower is better).
+          </p>
+        )}
+        {tenzies && (
+          <>
+            {newLowScore ? (
+              <p>NEW LOW SCORE! Just excellent.</p>
+            ) : (
+              <p>WINNER! Nice one, you. I know you can do better though.</p>
+            )}
+          </>
+        )}
+        <div className="diceContainer">{dieElements}</div>
+        {!tenzies ? (
+          <div className="stopwatch">
+            {timerRunning ? (
+              <div className="numbers">
+                <div>
+                  <span>Rolls: </span>
+                  <span>{rollCount}</span>
+                </div>
+                <div>
+                  <span>Time: </span>
+                  <span>{timeInt} seconds</span>
+                </div>
               </div>
-              <div>
-                <span>Time: </span>
-                <span>{timeInt} seconds</span>
-              </div>
-            </div>
-          ) : (
-            <span>Click dice / roll to begin!</span>
-          )}
-        </div>
-      ) : (
-        <p>
-          You scored <span className="bold">{timeInt + rollCount}</span>
-          <br />
-          {`(${timeInt} seconds + ${rollCount} rolls)`}
-          <br />
-          <br />
-          Low score:{" "}
-          <span className="bold">
-            {lowScore ? lowScore : timeInt + rollCount}
-          </span>
-        </p>
-      )}
-      <button className="roll shadow" onClick={tenzies ? newGame : rollDice}>
-        {tenzies ? "New Game?" : "Roll"}
-      </button>
+            ) : (
+              <span>Click dice / roll to begin!</span>
+            )}
+          </div>
+        ) : (
+          <p>
+            You scored <span className="bold">{timeInt + rollCount}</span>
+            <br />
+            {`(${timeInt} seconds + ${rollCount} rolls)`}
+            <br />
+            <br />
+            Low score:{" "}
+            <span className="bold">
+              {lowScore ? lowScore : timeInt + rollCount}
+            </span>
+          </p>
+        )}
+        <button className="roll shadow" onClick={tenzies ? newGame : rollDice}>
+          {tenzies ? "New Game?" : "Roll"}
+        </button>
+      </section>
+      <Info />
     </main>
   )
 }
