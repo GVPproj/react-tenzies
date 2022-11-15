@@ -4,17 +4,26 @@ export default function Info() {
       <h1 className="title">About</h1>
       <p>
         This project, my first React app, is based on the Tenzies app from Bob
-        Ziroll's Scrimba React Course.
+        Ziroll's React Course. Ziroll's gameplay and design elements are intact
+        here.
       </p>
       <p>
-        Ziroll's basic gameplay and design is intact here, but I have added{" "}
-        <strong>Scoring</strong> functionality by counting dice-rolls as well as
-        seconds-to-completion with a proprietary <strong>Timer</strong>. The
-        user's low score <strong>persists</strong> in their browser's <em>local storage</em> for later
-        sessions.
+        However, I have added <strong>Scoring</strong> functionality by{" "}
+        <i>counting dice-rolls</i> as well as monitoring{" "}
+        <i>time-to-completion</i> with a proprietary <strong>Timer</strong>. The
+        user's "low score" <strong>persists</strong> in their browser's{" "}
+        <em>local storage</em> for later sessions.
       </p>
       <p>
-        I also personalized the <strong>styling</strong> somewhat.
+        I have introduced <strong>graphical dice</strong> which invert when
+        selected, replacing of the more basic text value display of the
+        original.
+      </p>
+      <p>
+        I also personalized the <strong>styling</strong>, fonts and colours.
+      </p>
+      <p>
+        Thanks for playing! <em>xo, GVP</em>
       </p>
     </section>
   )

@@ -99,9 +99,9 @@ function App() {
         <h1 className="title">Tenzies</h1>
         {!tenzies && (
           <p className="instructions">
-            Click dice to freeze between rolls.
+            Make all 10 dice match.
             <br />
-            Roll remaining dice until all match.
+            Click dice between rolls to freeze.
             <br />
             Score = rolls + time (lower is better).
           </p>
@@ -109,9 +109,23 @@ function App() {
         {tenzies && (
           <>
             {newLowScore ? (
-              <p>NEW LOW SCORE! Just excellent.</p>
+              <p className="instructions">
+                NEW LOW SCORE!!!
+                <br />
+                Just terrific.
+                <br />
+                You scored <span className="bold">{timeInt + rollCount}</span>
+                {` (${timeInt} seconds + ${rollCount} rolls)`}
+              </p>
             ) : (
-              <p>WINNER! Nice one, you. I know you can do better though.</p>
+              <p className="instructions">
+                Winner!
+                <br />
+                Nice one, you.
+                <br />
+                You scored <span className="bold">{timeInt + rollCount}</span>
+                {` (${timeInt} seconds + ${rollCount} rolls)`}
+              </p>
             )}
           </>
         )}
@@ -130,16 +144,11 @@ function App() {
                 </div>
               </div>
             ) : (
-              <span>Click dice / roll to begin!</span>
+              <p>Click dice or re-roll to begin!</p>
             )}
           </div>
         ) : (
           <p>
-            You scored <span className="bold">{timeInt + rollCount}</span>
-            <br />
-            {`(${timeInt} seconds + ${rollCount} rolls)`}
-            <br />
-            <br />
             Low score:{" "}
             <span className="bold">
               {lowScore ? lowScore : timeInt + rollCount}
